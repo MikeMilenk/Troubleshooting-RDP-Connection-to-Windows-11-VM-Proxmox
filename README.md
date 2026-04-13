@@ -75,7 +75,7 @@ To resolve this:
 
 ### Notes / Limitations
 
-Although I identified the root cause of the issue (Microsoft account vs local account), I was not able to fully resolve authentication using the original user account.
+Although I identified the root cause of the issue (Microsoft account vs local account), I [was not able to fully resolve](https://techcommunity.microsoft.com/discussions/windows10space/unable-to-connect-via-rdp-with-microsoft-account/4079390) authentication using the original user account.
 
 As a workaround:
 
