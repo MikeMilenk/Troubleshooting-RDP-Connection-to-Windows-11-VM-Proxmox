@@ -1,7 +1,7 @@
 ## Troubleshooting RDP Connection to Windows 11 VM (Proxmox)
 
 ### Overview
-While working with virtual machines in Proxmox, I configured Remote Desktop Protocol (RDP) access. I was able to successfully connect to a Windows Server 2022 VM, but encountered persistent authentication issues when attempting to connect to a Windows 11 Pro VM.
+While working with virtual machines in [Proxmox] (https://www.proxmox.com), I configured Remote Desktop Protocol (RDP) access. I was able to successfully connect to a Windows Server 2022 VM, but encountered persistent authentication issues when attempting to connect to a Windows 11 Pro VM.
 
 ---
 
@@ -47,10 +47,11 @@ net user Administrator <password>
 
 ### Network Setup
 
-To enable secure remote access, I configured a VPN using Tailscale.
+To enable secure remote access, I configured a VPN using [Tailscale] (https://tailscale.com).
 
-- All virtual machines were connected to a shared private network via Tailscale
+- All VMs were connected to a shared private network via Tailscale
 - Each VM received an internal Tailscale IP address (100.x.x.x)
+- My physical machine (used for RDP connections) was also connected to the same Tailscale network
 - This allowed remote access as if all devices were on the same local network
 
 This approach eliminated the need for port forwarding and reduced exposure to external threats.
@@ -59,16 +60,16 @@ This approach eliminated the need for port forwarding and reduced exposure to ex
 
 ### Additional Finding (User Context & Tailscale)
 
-During testing, I discovered that Tailscale connectivity depended on the user context:
+During testing, I discovered that Tailscale connectivity depended on the user session:
 
 - Tailscale was initially configured under the primary user account
-- After switching to the Administrator account, the Tailscale connection was no longer active
+- After logging out of the primary account and switching to the Admin account, the Tailscale connection was no longer active
 - As a result, the VM became unreachable via its Tailscale IP, and RDP access failed
 
 To resolve this:
 
-- Tailscale was installed and authenticated under the Administrator account
-- This ensured persistent remote access regardless of which user account was active
+- Tailscale was installed and authenticated under the Admin account
+- This allowed RDP access to function while operating under the Admin session
 
 ---
 
@@ -76,12 +77,12 @@ To resolve this:
 
 Although I identified the root cause of the issue (Microsoft account vs local account), I was not able to fully resolve authentication using the original user account.
 
-I spent approximately 2 evenings troubleshooting this issue, testing multiple approaches (credential changes, Windows Hello settings, connectivity checks), but did not achieve a stable solution.
-
 As a workaround:
 
 - I enabled and used a local Administrator account
 - I configured Tailscale under that account to maintain remote access
 - I removed dependency on the original user account
 
-This approach restored functionality, although a more complete solution for Microsoft account-based RDP authentication may require further investigation.
+Additionally, I maintained access to the VM through the Proxmox console, which allowed me to continue troubleshooting and apply configuration changes even when RDP was not available.
+
+A more complete solution for Microsoft account-based RDP authentication may require further investigation.
