@@ -1,7 +1,7 @@
 ## Troubleshooting RDP Connection to Windows 11 VM (Proxmox)
 
 ### Overview
-While working with virtual machines in [Proxmox] (https://www.proxmox.com), I configured Remote Desktop Protocol (RDP) access. I was able to successfully connect to a Windows Server 2022 VM, but encountered persistent authentication issues when attempting to connect to a Windows 11 Pro VM.
+While working with virtual machines in [Proxmox](https://www.proxmox.com), I configured Remote Desktop Protocol (RDP) access. I was able to successfully connect to a Windows Server 2022 VM, but encountered persistent authentication issues when attempting to connect to a Windows 11 Pro VM.
 
 ---
 
@@ -47,7 +47,7 @@ net user Administrator <password>
 
 ### Network Setup
 
-To enable secure remote access, I configured a VPN using [Tailscale] (https://tailscale.com).
+To enable secure remote access, I configured a VPN using [Tailscale](https://tailscale.com).
 
 - All VMs were connected to a shared private network via Tailscale
 - Each VM received an internal Tailscale IP address (100.x.x.x)
